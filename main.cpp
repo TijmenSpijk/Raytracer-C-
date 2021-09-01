@@ -8,14 +8,14 @@ double hit_sphere(const point3& center, double radius, const ray& r) {
     // b*b*t^2 + 2 * b * (A - C) * t + (A - C)^2 - r^2
     // ax^2 + bx + c
     vec3 oc = r.origin() - center;
-    auto a = dot(r.direction(), r.direction());
-    auto b = 2.0 * dot(oc, r.direction());
-    auto c = dot(oc, oc) - radius*radius;
-    auto dis = b*b - 4*a*c;
+    auto a = r.direction().length_squared();
+    auto half_b = dot(oc, r.direction());
+    auto c = oc.length_squared() - radius*radius;
+    auto dis = half_b*half_b - a*c;
     if (dis < 0) {
         return -1.0;
     } else {
-        return (-b - sqrt(dis)) / (2.0*a);
+        return (-half_b - sqrt(dis)) / (a);
     }
 }
 
