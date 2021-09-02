@@ -50,11 +50,20 @@ class vec3 {
         }
 
         inline static vec3 random(double min, double max) {
-            return vec3(random_double(min,max), random_double(min,max), random_double(min,max));
+            return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
         }
 
     public:
         double e[3];
+
+    private:
+        inline static double random_double() {
+            return rand() / (RAND_MAX + 1.0);
+        }
+
+        inline static double random_double(double min, double max) {
+            return min + (max-min)*random_double();
+        }
 };
 
 // Type aliases for vec3
@@ -108,7 +117,7 @@ inline vec3 unit_vector(vec3 v) {
     return v / v.length();
 }
 
-vec3 random_in_unit_sphere() {
+inline vec3 random_in_unit_sphere() {
     while (true) {
         auto p = vec3::random(-1,1);
         if (p.length_squared() >= 1) continue;
